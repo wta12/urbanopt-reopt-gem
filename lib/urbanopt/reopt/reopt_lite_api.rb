@@ -196,6 +196,7 @@ module URBANopt # :nodoc:
         end
         request = Net::HTTP::Post.new(@uri_submit_outagesimjob, header)
         request.body = ::JSON.generate({"run_uuid" => run_uuid, "bau" => false }, allow_nan: true)
+        # request.body = ::JSON.generate({"run_uuid" => run_uuid, "bau" => true }, allow_nan: true)
         submit_response = make_request(http, request)
         @@logger.info(submit_response.body)
 
