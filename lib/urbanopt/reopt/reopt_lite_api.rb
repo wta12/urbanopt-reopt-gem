@@ -65,8 +65,8 @@ module URBANopt # :nodoc:
       def initialize(nrel_developer_key = nil, use_localhost = false)
         @use_localhost = use_localhost
         if @use_localhost
-          @uri_submit = URI.parse('http//:127.0.0.1:8000/v1/job/')
-          @uri_submit_outagesimjob = URI.parse('http//:127.0.0.1:8000/v1/outagesimjob/')
+          @uri_submit = URI.parse('http://127.0.0.1:8000/v1/job/')
+          @uri_submit_outagesimjob = URI.parse('http://127.0.0.1:8000/v1/outagesimjob/')
         else
           if [nil, '', '<insert your key here>'].include? nrel_developer_key
             if [nil, '', '<insert your key here>'].include? DEVELOPER_NREL_KEY
@@ -79,10 +79,11 @@ module URBANopt # :nodoc:
           @uri_submit = URI.parse("https://developer.nrel.gov/api/reopt/v1/job/?api_key=#{@nrel_developer_key}")
           @uri_submit_outagesimjob = URI.parse("https://developer.nrel.gov/api/reopt/v1/outagesimjob/?api_key=#{@nrel_developer_key}")
           # initialize @@logger
-          @@logger ||= URBANopt::REopt.reopt_logger
+        
         end
+        @@logger ||= URBANopt::REopt.reopt_logger
       end
-
+ 
       ##
       # URL of the results end point for a specific optimization task
       ##
@@ -153,7 +154,7 @@ module URBANopt # :nodoc:
 
         # Send the request
         response = make_request(http, request)
-
+        
         if !response.is_a?(Net::HTTPSuccess)
           @@logger.error('Check_connection Failed')
           raise 'Check_connection Failed'
@@ -267,7 +268,8 @@ module URBANopt # :nodoc:
 
         # Send the request
         response = make_request(http, request)
-
+        @@logger.error("#{description} has no response") if response.nil?
+        # ap [reopt_input,response]
         # Get UUID
         run_uuid = JSON.parse(response.body, allow_nan:true)['run_uuid']
 
@@ -289,6 +291,7 @@ module URBANopt # :nodoc:
           end
           @@logger.info("Cannot write - #{filename}")
           raise "Error in REopt optimization post - see #{filename}"
+
         end
 
         # Poll results until ready or error occurs

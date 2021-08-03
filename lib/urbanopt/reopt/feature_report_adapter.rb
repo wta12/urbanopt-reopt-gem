@@ -263,8 +263,8 @@ module URBANopt # :nodoc:
             end
           end
         end
-        @@logger.debug("#{__LINE__}: " + feature_report.timeseries_csv.column_names.map.with_index {|x,i| [x,i].join(" : ") }.join("\n"))
-        @@logger.debug("#{__LINE__} csv_columns: " + CSV.open(feature_report.timeseries_csv.path).read.transpose.size.to_s)
+        # @@logger.debug("#{__LINE__}: " + feature_report.timeseries_csv.column_names.map.with_index {|x,i| [x,i].join(" : ") }.join("\n"))
+        # @@logger.debug("#{__LINE__} csv_columns: " + CSV.open(feature_report.timeseries_csv.path).read.transpose.size.to_s)
         
 
         $generation_timeseries_kwh = generation_timeseries_kwh.to_a[0] || [0] * (8760 * feature_report.timesteps_per_hour)
@@ -415,8 +415,8 @@ module URBANopt # :nodoc:
           $wind_to_grid_col = feature_report.timeseries_csv.column_names.length
           feature_report.timeseries_csv.column_names.push('REopt:ElectricityProduced:Wind:ToGrid(kw)')
         end
-        @@logger.debug("#{__LINE__}: " + feature_report.timeseries_csv.column_names.map.with_index {|x,i| [x,i].join(" : ") }.join("\n"))
-        @@logger.debug("#{__LINE__} csv_columns: " + CSV.open(feature_report.timeseries_csv.path).read.transpose.size.to_s)
+        # @@logger.debug("#{__LINE__}: " + feature_report.timeseries_csv.column_names.map.with_index {|x,i| [x,i].join(" : ") }.join("\n"))
+        # @@logger.debug("#{__LINE__} csv_columns: " + CSV.open(feature_report.timeseries_csv.path).read.transpose.size.to_s)
         def modrow(x, i) # :nodoc:
           x[$generation_timeseries_kwh_col] = $generation_timeseries_kwh[i] || 0
           x[$load_col] = $load[i] || 0
@@ -468,7 +468,7 @@ module URBANopt # :nodoc:
                     ["$wind_to_battery_col", $wind_to_battery_col],
                     ["$wind_to_load_col", $wind_to_load_col],
                     ["$wind_to_grid_col", $wind_to_grid_col]]
-                      @@logger.debug(test_data.map {|x| x.join(" : ")}.join("\n"))
+                      # @@logger.debug(test_data.map {|x| x.join(" : ")}.join("\n"))
                      
         mod_data = old_data.map.with_index do |x, i|
          
@@ -484,9 +484,9 @@ module URBANopt # :nodoc:
 
         mod_data[0] = feature_report.timeseries_csv.column_names
         
-        @@logger.debug("mod_data_column_names:#{mod_data[0].size} - #{mod_data.map{|x| x.size}.uniq.join(" : ")}")
-        @@logger.debug("old_data:#{old_data[0].size} - #{old_data.map{|x| x.size}.uniq.join(" : ")}")
-        @@logger.debug("start_date:#{start_date} - start_ts: #{start_ts}")
+        # @@logger.debug("mod_data_column_names:#{mod_data[0].size} - #{mod_data.map{|x| x.size}.uniq.join(" : ")}")
+        # @@logger.debug("old_data:#{old_data[0].size} - #{old_data.map{|x| x.size}.uniq.join(" : ")}")
+        # @@logger.debug("start_date:#{start_date} - start_ts: #{start_ts}")
       
         # ap mod_data.transpose
         feature_report.timeseries_csv.reload_data(mod_data)
